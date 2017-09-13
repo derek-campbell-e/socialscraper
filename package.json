@@ -1,0 +1,17 @@
+{
+  "name": "socialscraper",
+  "version": "1.0.0",
+  "description": "everything you post and interact with online is recorded... you know that right?",
+  "main": "index.js",
+  "delimiter": "scraper",
+  "scripts": {
+    "test": "DEBUG=*,-node* nodemon index.js"
+  },
+  "author": "ugenu.io",
+  "license": "ISC",
+  "dependencies": {
+    "twitter": "^1.7.1",
+    "twitter-node-client": "0.0.6",
+    "vorpal": "^1.12.0"
+  }
+}
