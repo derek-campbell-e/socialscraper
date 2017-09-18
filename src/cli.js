@@ -15,7 +15,7 @@ module.exports = function CLI(SocialScraper){
       ],
       action: function(args, cb){
         console.log("scraping fb post");
-        SocialScraper.scrape('fb', args, cb);
+        SocialScraper.scrape('facebook', args, cb);
       },
     },
 

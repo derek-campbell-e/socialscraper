@@ -14,16 +14,32 @@ module.exports = function TwitterIntegration(SocialScraper){
     return twitter;
   };
 
-  twitter.scrape = function(args, callback){
+  twitter.scrapeLoop = function(args, callback){
     console.log("TRYING TO SCRAPE FROM TwitterIntegration", args.options.post);
-    client.getCustomApiCall('/statuses/retweets/'+args.options.post+'.json', {}, function(err, res, body){
-      console.log("GOT AN ERROR", err, body);
+    var req_args = {};
+    req_args.id = args.options.post;
+    if(args.options.cursor){
+      req_args.cursor = args.options.cursor;
+    }
+
+    client.getCustomApiCall('/statuses/retweeters/ids.json', req_args, function(err, res, body){
+      console.log(err);
+      callback(err);
     }, function(data){
-      console.log("GOT THE DATA!!", data)
+      data = JSON.parse(data);
+      if(data.next_cursor !== -1) {
+        args.options.cursor = data.next_cursor;
+        console.log(data);
+        return twitter.scrapeLoop(args, callback);
+      }
+      callback(null, data);
     });
     // https://api.twitter.com/1.1/statuses/retweets/210462857140252672.json
     // https://api.twitter.com/1.1/statuses/retweets/210462857140252670.json
-    callback();
+  };
+
+  twitter.scrape = function(args, callback){
+    twitter.scrapeLoop(args, callback);
   };
 
   return twitter.init();

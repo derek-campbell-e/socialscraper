@@ -3,10 +3,11 @@ module.exports = function SocialScraper(){
 
   var socialModules = {
     twitter: require('./twitter')(ss),
+    facebook: require('./facebook')(ss)
   };
 
   ss.init = function(){
-    console.log("initialized");
+    console.log("initialized", socialModules);
     var cli = require('./cli')(ss);
     return ss;
   };
@@ -14,6 +15,7 @@ module.exports = function SocialScraper(){
   ss.scrape = function(network, args, callback){
     console.log("scraping", network, "with args", args);
     socialModules[network].scrape(args, function(error, result){
+      console.log("FINIISHED");
       callback();
     });
   };
